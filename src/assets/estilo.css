@@ -151,6 +151,18 @@ tr:last-child td{border-bottom:0}
 .etiqueta{display:inline-block;font-family:var(--f-dato);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--linea);color:var(--tinta-2);margin-right:6px}
 .etiqueta.co{border-color:var(--oro);color:var(--oro)}
 @media (max-width:560px){.evento{grid-template-columns:1fr;gap:6px}}
+[hidden]{display:none!important}
+
+/* Actividades de la Cámara (galería) */
+.actividades{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.actividad{background:var(--blanco);border:1px solid var(--linea);display:grid;align-content:start}
+.actividad a{display:block;overflow:hidden;background:var(--papel)}
+.actividad img{display:block;width:100%;height:100%;object-fit:cover}
+.actividad .foto-principal a{aspect-ratio:4/3}
+.actividad .miniaturas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px 4px 0}
+.actividad .miniaturas a{aspect-ratio:1}
+.actividad .cuerpo{padding:20px 22px;display:grid;gap:8px}
+.actividad .cuerpo p:not(.ante){color:var(--tinta-2);font-size:.95rem}
 
 /* Formularios */
 .formulario{background:var(--blanco);border:1px solid var(--linea);padding:28px;display:grid;gap:16px}

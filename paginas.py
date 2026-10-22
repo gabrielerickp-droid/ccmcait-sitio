@@ -301,34 +301,47 @@ CASOS = heroe_interior("Casos de éxito", "La confianza se construye con datos",
 """ + cta("¿Qué mercado quiere explorar?", "Le preparamos la ficha de su país de interés con datos verificables.", "Quiero mi ficha")
 
 # ------------------------------------------------------------------ EVENTOS
+# Agenda: (fecha visible, lugar, título, descripción, sector, enlace, en Colombia, último día AAAA-MM-DD).
+# Los eventos cuyo último día ya pasó no se generan, y en la página publicada se ocultan solos.
 EVENTOS_LISTA = [
-    ("13–15 oct", "Paramaribo, Surinam", "4ª International Business Conference (IBC) 2026", "Cámara de Comercio Surinam-Guyana. Tema: de la energía a la industria en la cadena de valor Surinam-Guyana. Rueda de negocios B2B.", "Energía e industria", "https://www.surinamebusinessconference.com/", False),
-    ("15–16 oct", "Barranquilla, Colombia", "V Encuentro de Cámaras Binacionales", "Red de Cámaras de Comercio Binacionales de Colombia, de la cual hace parte la CCMCAIT. Encuentro de las cámaras binacionales del país.", "Red de Cámaras Binacionales", None, True),
-    ("15 oct", "Barranquilla, Colombia", "Caribe BIZ Forum 2026", "Cámara de Comercio de Barranquilla, Centro de Eventos Puerta de Oro. Sin costo para empresas con matrícula renovada en 2026, sujeto a validación.", "Negocios Colombia-Caribe", "https://www.camarabaq.org.co/caribe-biz-registro/", True),
-    ("16–18 oct", "Medellín, Colombia", "Feria Effix 2026", "Plaza Mayor. Comercio electrónico, marketplaces, logística y publicidad digital.", "Comercio electrónico", "https://feriaeffix.com/", True),
-    ("19–21 oct", "Nassau, Bahamas", "Bahamas Summit 2026", "Centurion One Capital, Rosewood Baha Mar. Encuentro de inversión, solo por invitación.", "Capital e inversión", "https://centuriononecapital.com/", False),
-    ("Octubre", "Santo Domingo, R. Dominicana", "Bolsa Turística del Caribe (BTC) 2026", "Edición de 30 años de la feria de turismo de referencia en República Dominicana. Fechas por confirmar por el organizador.", "Turismo", "https://www.btc.com.do/", False),
-    ("16–18 nov", "Barbados", "CHIEF 2026", "Caribbean Hotel & Tourism Association, Wyndham Grand Barbados Sam Lords Castle. Foro de la industria hotelera.", "Turismo y hospitalidad", "https://caribbeanhotelandtourism.com/events/", False),
-    ("16–19 nov", "Barbados", "Taste of the Caribbean 2026", "Caribbean Hotel & Tourism Association. Competencia culinaria e intercambio con proveedores de alimentos y bebidas.", "Alimentos y gastronomía", "https://caribbeanhotelandtourism.com/events/", False),
-    ("27–29 nov", "Paramaribo, Surinam", "Suriname Tourism & Food Festival 2026", "Torarica Resort. La principal feria de turismo de Surinam.", "Turismo y alimentos", None, False),
+    ("22–24 oct", "Santo Domingo, R. Dominicana", "Bolsa Turística del Caribe (BTC) 2026", "Hotel El Embajador. Edición de 30 años de la feria de turismo de referencia en República Dominicana.", "Turismo", "https://www.btc.com.do/", False, "2026-10-24"),
+    ("16–18 nov", "Barbados", "CHIEF 2026", "Caribbean Hotel & Tourism Association, Wyndham Grand Barbados Sam Lords Castle. Foro de la industria hotelera.", "Turismo y hospitalidad", "https://caribbeanhotelandtourism.com/events/", False, "2026-11-18"),
+    ("16–19 nov", "Barbados", "Taste of the Caribbean 2026", "Caribbean Hotel & Tourism Association. Competencia culinaria e intercambio con proveedores de alimentos y bebidas.", "Alimentos y gastronomía", "https://caribbeanhotelandtourism.com/events/", False, "2026-11-19"),
+    ("27–29 nov", "Paramaribo, Surinam", "Suriname Tourism & Food Festival 2026", "Torarica Resort. La principal feria de turismo de Surinam.", "Turismo y alimentos", None, False, "2026-11-29"),
 ]
-def fila_evento(f, lugar, t, d, s, u, co):
+import datetime as _dt
+PROXIMOS = [e for e in EVENTOS_LISTA if e[7] >= _dt.date.today().isoformat()]
+def fila_evento(f, lugar, t, d, s, u, co, hasta):
     etiquetas = ('<span class="etiqueta co">En Colombia</span>' if co else "") + f'<span class="etiqueta">{s}</span>'
     enlace = f' <a href="{u}">Sitio del evento →</a>' if u else ""
-    return f'<div class="evento"><div class="fecha">{f}<small>{lugar}</small></div><div class="texto" style="gap:6px"><h3>{t}</h3><p>{d}</p><p>{etiquetas}{enlace}</p></div></div>'
-filas_eventos = "".join(fila_evento(*e) for e in EVENTOS_LISTA)
-EVENTOS = heroe_interior("Agenda octubre – noviembre 2026", "Eventos del Caribe y Colombia", "La CCMCAIT sigue los principales eventos, ferias y encuentros empresariales de la región para que su empresa llegue donde están las oportunidades.") + f"""
-<section class="seccion blanca"><div class="envoltura columnas" style="align-items:center">
-<img src="{{{{a}}}}encuentro-binacionales-2026.jpg" alt="Pieza oficial del V Encuentro de Cámaras Binacionales, Barranquilla, 15 y 16 de octubre de 2026" width="720" height="720" style="max-width:420px;width:100%;justify-self:center">
-<div class="texto"><p class="ante">Evento destacado · 15 y 16 de octubre</p><h2>V Encuentro de Cámaras Binacionales</h2>
-<p>Barranquilla recibe a la Red de Cámaras de Comercio Binacionales de Colombia, de la cual hace parte la CCMCAIT. Dos días para fortalecer la cooperación entre las cámaras que conectan a Colombia con el mundo.</p>
-<p>Si su empresa quiere aprovechar el encuentro para reunirse con la Cámara o con las demás cámaras binacionales, escríbanos y coordinamos la agenda.</p>
-<div class="acciones"><a class="boton" href="{WA}Hola%2C%20quiero%20participar%20en%20el%20V%20Encuentro%20de%20C%C3%A1maras%20Binacionales">Coordinar mi agenda</a></div></div>
-</div></section>
+    return f'<div class="evento" data-hasta="{hasta}"><div class="fecha">{f}<small>{lugar}</small></div><div class="texto" style="gap:6px"><h3>{t}</h3><p>{d}</p><p>{etiquetas}{enlace}</p></div></div>'
+filas_eventos = "".join(fila_evento(*e) for e in PROXIMOS)
+OCULTAR_PASADOS = """<script>(function(){var hoy=new Date();hoy.setHours(0,0,0,0);var quedan=0;
+document.querySelectorAll('.evento[data-hasta]').forEach(function(e){if(new Date(e.dataset.hasta+'T23:59:59')<hoy){e.remove();}else{quedan++;}});
+if(!quedan){var a=document.querySelector('.agenda');if(a){a.hidden=true;}var v=document.querySelector('[data-sin-eventos]');if(v){v.hidden=false;}}})();</script>"""
+
+# Actividades de la Cámara, con fotos en src/assets/actividades/:
+# (fecha, lugar, título, descripción, [(archivo, texto alternativo, ancho, alto), ...]). La primera foto es la principal.
+ACTIVIDADES = []
+def foto_actividad(archivo, alt, ancho, alto):
+    return f'<a href="{{{{a}}}}actividades/{archivo}"><img src="{{{{a}}}}actividades/{archivo}" alt="{alt}" width="{ancho}" height="{alto}" loading="lazy"></a>'
+def tarjeta_actividad(fecha, lugar, titulo, desc, fotos):
+    mini = f'<div class="miniaturas">{"".join(foto_actividad(*x) for x in fotos[1:])}</div>' if len(fotos) > 1 else ""
+    return f'<article class="actividad"><div class="foto-principal">{foto_actividad(*fotos[0])}</div>{mini}<div class="cuerpo"><p class="ante">{fecha} · {lugar}</p><h3>{titulo}</h3><p>{desc}</p></div></article>'
+SECCION_ACTIVIDADES = (f"""
+<section class="seccion blanca"><div class="envoltura">
+<div class="encabezado-seccion"><p class="ante">Lo que hemos hecho</p><h2>Actividades de la Cámara</h2><p class="lead">Encuentros, ferias y misiones en las que la CCMCAIT ha representado a los empresarios de Colombia y el Caribe.</p></div>
+<div class="actividades">{"".join(tarjeta_actividad(*a) for a in ACTIVIDADES)}</div>
+</div></section>""" if ACTIVIDADES else "")
+
+EVENTOS = heroe_interior("Eventos y actividades", "Eventos del Caribe y Colombia", "La CCMCAIT sigue los principales eventos, ferias y encuentros empresariales de la región para que su empresa llegue donde están las oportunidades.") + SECCION_ACTIVIDADES + f"""
 <section class="seccion"><div class="envoltura">
-<div class="agenda">{filas_eventos}</div>
-<p class="fuente" style="margin-top:14px">Agenda verificada el 11 de octubre de 2026 con las fuentes de cada organizador. Las fechas pueden cambiar; confirme con el organizador antes de viajar.</p>
+<div class="encabezado-seccion"><p class="ante">Próximos eventos</p><h2>Agenda del Caribe y Colombia</h2></div>
+<div class="agenda"{"" if PROXIMOS else " hidden"}>{filas_eventos}</div>
+<p class="aviso" data-sin-eventos{" hidden" if PROXIMOS else ""}>Estamos preparando la próxima agenda. Escríbanos y le contamos qué eventos vienen.</p>
+<p class="fuente" style="margin-top:14px">Agenda verificada el 11 de octubre de 2026 y actualizada el 22 de octubre de 2026 con las fuentes de cada organizador. Las fechas pueden cambiar; confirme con el organizador antes de viajar.</p>
 </div></section>
+{OCULTAR_PASADOS}
 """ + cta("¿Quiere que su empresa vaya a alguno?", "Le ayudamos a preparar la agenda, los contactos y las reuniones para que cada evento se convierta en negocios.", "Quiero participar")
 
 # ------------------------------------------------------------------ CONTACTO
@@ -393,7 +406,7 @@ PAGINAS = {
     "cobertura": {"titulo": "Cobertura | CCMCAIT", "descripcion": "Los 13 países y 21 dependencias del Caribe y las Antillas donde trabaja la CCMCAIT, con enlaces a sus gobiernos.", "html": COBERTURA},
     "portal-de-oportunidades": {"titulo": "Portal de oportunidades | CCMCAIT", "descripcion": "Oportunidades de negocio verificadas entre Colombia y el Caribe: vender, comprar e invertir con respaldo de la Cámara.", "html": PORTAL, "hijas": ["casos-de-exito"]},
     "casos-de-exito": {"titulo": "Casos de éxito | CCMCAIT", "descripcion": "Fichas de país con datos verificados y casos de empresas colombianas acompañadas por la Cámara en el Caribe.", "html": CASOS},
-    "eventos": {"titulo": "Eventos del Caribe | CCMCAIT", "descripcion": "Agenda de ferias, foros y misiones comerciales en el Caribe y Colombia, octubre y noviembre de 2026.", "html": EVENTOS},
+    "eventos": {"titulo": "Eventos del Caribe | CCMCAIT", "descripcion": "Próximas ferias, foros y misiones comerciales en el Caribe y Colombia, y actividades de la CCMCAIT.", "html": EVENTOS},
     "contacto": {"titulo": "Contacto | CCMCAIT", "descripcion": "Escriba a la CCMCAIT para exportar al Caribe, importar desde Colombia o ser aliado estratégico. Oficinas en Bogotá y Santo Domingo.", "html": CONTACTO},
     "privacidad": {"titulo": "Aviso de privacidad | CCMCAIT", "descripcion": "Política de tratamiento de datos personales de la CCMCAIT según la Ley 1581 de 2012.", "html": PRIVACIDAD},
     "gracias": {"titulo": "Solicitud recibida | CCMCAIT", "descripcion": "Gracias por escribir a la CCMCAIT.", "html": GRACIAS, "noindex": True},

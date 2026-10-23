@@ -14,6 +14,7 @@ NAV = [
     ("", "Inicio"),
     ("sobre-la-camara", "La Cámara"),
     ("servicios", "Servicios"),
+    ("commodities", "Commodities"),
     ("cobertura", "Cobertura"),
     ("portal-de-oportunidades", "Oportunidades"),
     ("eventos", "Eventos"),
@@ -396,6 +397,26 @@ PRIVACIDAD = heroe_interior("Habeas data", "Aviso de privacidad y tratamiento de
 GRACIAS = heroe_interior("Solicitud recibida", "Gracias por escribirnos", "Recibimos su solicitud. La Cámara la revisará y le responderá por correo o WhatsApp.") + """
 <section class="seccion"><div class="envoltura acciones"><a class="boton" href="{{u:}}">Volver al inicio</a><a class="boton sec" href="{{u:eventos}}">Ver la agenda de eventos</a></div></section>"""
 
+COMMODITIES = heroe_interior("Commodities", "Commodities de Colombia para el Caribe y el mundo", "La CCMCAIT conecta a compradores, importadores y comercializadores con proveedores de carbón, minerales, materiales de construcción y aluminio. Cada proveedor pasa por la verificación de la Cámara antes de ser presentado.") + """
+<section class="seccion"><div class="envoltura">
+<div class="encabezado-seccion"><h2>Portafolio</h2><p class="lead">Categorías disponibles para consulta. Especificaciones, volúmenes y precios se entregan por solicitud, según el producto y el destino.</p></div>
+<div class="rejilla productos">
+<article class="tarjeta producto"><img src="{{a}}commodities/carbon.svg" alt="Carbón mineral" width="320" height="220" loading="lazy"><div class="cuerpo-producto"><h3>Carbón</h3><p>Térmico y coquizable.</p></div></article>
+<article class="tarjeta producto"><img src="{{a}}commodities/minerales.svg" alt="Minerales metálicos" width="320" height="220" loading="lazy"><div class="cuerpo-producto"><h3>Minerales metálicos</h3><p>Níquel, hierro y ferroaleaciones.</p></div></article>
+<article class="tarjeta producto"><img src="{{a}}commodities/construccion.svg" alt="Materiales de construcción" width="320" height="220" loading="lazy"><div class="cuerpo-producto"><h3>Materiales de construcción</h3><p>Cemento, agregados pétreos y yeso.</p></div></article>
+<article class="tarjeta producto"><img src="{{a}}commodities/aluminio.svg" alt="Aluminio" width="320" height="220" loading="lazy"><div class="cuerpo-producto"><span class="etiqueta">Programa piloto</span><h3>Aluminio y metales no ferrosos</h3><p>Chatarra, aluminio primario, billet, perfiles extruidos, chapa y bobina.</p></div></article>
+</div></div></section>
+<section class="seccion blanca"><div class="envoltura">
+<div class="encabezado-seccion"><h2>Cómo funciona</h2></div>
+<div class="rejilla">
+<div class="tarjeta"><h3>1. Nos cuenta qué necesita</h3><p>Producto, volumen aproximado y destino de entrega.</p></div>
+<div class="tarjeta"><h3>2. Verificamos y cotizamos</h3><p>Presentamos solo proveedores que pasaron la verificación de la Cámara y le enviamos una cotización indicativa.</p></div>
+<div class="tarjeta"><h3>3. Acompañamos la operación</h3><p>Contacto institucional, coordinación logística y seguimiento hasta la entrega.</p></div>
+</div>
+<div class="acciones"><a class="boton sec" href="{{a}}flyer-commodities-es.pdf">Descargar flyer (español)</a><a class="boton sec" href="{{a}}flyer-commodities-en.pdf">Download flyer (English)</a></div>
+</div></section>
+""" + cta("Cotice sus commodities con la Cámara", "Cuéntenos qué producto busca y a qué destino. Le respondemos por WhatsApp o correo.", "Solicitar cotización", wa_texto="Hola%2C%20quiero%20cotizar%20commodities")
+
 PAGINAS = {
     "": {"titulo": "CCMCAIT | Cámara de Comercio Colombo Antillana", "descripcion": "Puente institucional para hacer negocios entre Colombia y 34 países y territorios del Caribe y las Antillas, con verificación de empresas y respaldo diplomático.", "html": INICIO},
     "sobre-la-camara": {"titulo": "Sobre la Cámara | CCMCAIT", "descripcion": "Misión, visión y articulación institucional de la Cámara de Comercio Multilateral Colombo Antillana de Integración y Turismo.", "html": SOBRE, "hijas": ["como-lo-hacemos", "tratados", "aliados-estrategicos"]},
@@ -407,6 +428,7 @@ PAGINAS = {
     "portal-de-oportunidades": {"titulo": "Portal de oportunidades | CCMCAIT", "descripcion": "Oportunidades de negocio verificadas entre Colombia y el Caribe: vender, comprar e invertir con respaldo de la Cámara.", "html": PORTAL, "hijas": ["casos-de-exito"]},
     "casos-de-exito": {"titulo": "Casos de éxito | CCMCAIT", "descripcion": "Fichas de país con datos verificados y casos de empresas colombianas acompañadas por la Cámara en el Caribe.", "html": CASOS},
     "eventos": {"titulo": "Eventos del Caribe | CCMCAIT", "descripcion": "Próximas ferias, foros y misiones comerciales en el Caribe y Colombia, y actividades de la CCMCAIT.", "html": EVENTOS},
+    "commodities": {"titulo": "Commodities | CCMCAIT", "descripcion": "Carbón, minerales, materiales de construcción y aluminio con proveedores verificados por la Cámara, para compradores del Caribe y el mundo.", "html": COMMODITIES},
     "contacto": {"titulo": "Contacto | CCMCAIT", "descripcion": "Escriba a la CCMCAIT para exportar al Caribe, importar desde Colombia o ser aliado estratégico. Oficinas en Bogotá y Santo Domingo.", "html": CONTACTO},
     "privacidad": {"titulo": "Aviso de privacidad | CCMCAIT", "descripcion": "Política de tratamiento de datos personales de la CCMCAIT según la Ley 1581 de 2012.", "html": PRIVACIDAD},
     "gracias": {"titulo": "Solicitud recibida | CCMCAIT", "descripcion": "Gracias por escribir a la CCMCAIT.", "html": GRACIAS, "noindex": True},

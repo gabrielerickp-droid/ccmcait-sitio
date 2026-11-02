@@ -553,20 +553,191 @@ MERCADO = heroe_interior("Mercado Colombia–Caribe", "Productos colombianos ver
 </div></section>
 """ + cta("¿Busca un producto que no está en el catálogo?", "Díganos qué necesita. Si existe en Colombia, la Cámara encuentra y verifica al proveedor.", "Hablar con la Cámara", wa_texto="Hola%2C%20busco%20un%20producto%20colombiano")
 
+
+# ================================================================== ENGLISH
+NAV_EN = [
+    ("en", "Home"),
+    ("en/services", "Services"),
+    ("en/marketplace", "Marketplace"),
+    ("en/contact", "Contact"),
+]
+
+def cta_en(titulo, texto, boton, destino="en/contact", wa_texto="Hello, I would like to talk to the Chamber"):
+    return f"""<section class="seccion marina"><div class="envoltura"><div class="encabezado-seccion">
+<h2>{titulo}</h2><p class="lead">{texto}</p></div>
+<div class="acciones"><a class="boton oro" href="{{{{u:{destino}}}}}">{boton}</a><a class="boton sec" href="{wa(wa_texto)}">Chat on WhatsApp</a></div>
+</div></section>"""
+
+DECLARACION_EN = """<div class="declaracion"><div class="marca-sello" aria-hidden="true">NO<br>MIDDLE-<br>MEN</div>
+<div class="texto"><h3>The Chamber does not work through intermediaries</h3>
+<p>CCMCAIT receives, advises and guides business owners directly. Before opening a door, we verify every company: authenticity, local registration, background checks and genuine commercial interest in the Antilles. This protects buyers, sellers and the governments that welcome us.</p></div></div>"""
+
+SERVICIOS_EN = [
+    ("ruta-exportadora", "Export Route", "We take your Colombian product to the Caribbean market that responds best, from first contact to first shipment.",
+     "Colombian companies with exportable products.",
+     ["Destination market reading with verifiable data", "Identification and verification of buyers and distributors", "Meeting agenda with the Chamber's institutional introduction", "Logistics, customs and documentation support up to the first shipment"],
+     "Hello, I am interested in the Export Route"),
+    ("aterrizaje-en-colombia", "Landing in Colombia", "We open Colombia to Caribbean companies: suppliers, partners, regions and institutions, with an agenda and on-the-ground support.",
+     "Companies, governments and chambers from the Caribbean and the Antilles.",
+     ["Verified Colombian suppliers and partners", "Agendas with trade associations, regional governments and public agencies", "Support in Bogotá and across the regions", "Investment opportunities with institutional backing"],
+     "Hello, I would like to do business in Colombia"),
+    ("diplomacia-comercial", "Commercial diplomacy and representation", "We are your company's institutional voice before chambers, ministries, embassies and Caribbean organisations.",
+     "Companies that need to enter a market with institutional backing.",
+     ["Institutional letter of introduction from the Chamber", "Meetings with chambers, ministries and embassies", "Representation at regional forums, fairs and meetings", "Follow-up of the relationship after every meeting"],
+     "Hello, I am interested in the Chamber's institutional representation"),
+    ("verificacion-de-contrapartes", "Counterparty verification", "Before you sign or ship, we verify who you are negotiating with.",
+     "Buyers and sellers who need certainty before closing.",
+     ["Legal registration and existence of the company", "Track record and commercial capacity", "Background review", "Confirmation of genuine commercial interest"],
+     "Hello, I need to verify a counterparty"),
+    ("misiones-y-ruedas-de-negocio", "Trade missions, fairs and B2B meetings", "We turn every event into meetings with buyers, partners and authorities.",
+     "Companies and associations that want a return on their presence at events.",
+     ["Selection of the event and key contacts", "Pre-arranged meeting agenda", "In-person and virtual B2B matchmaking", "Colombia–Caribbean trade missions in both directions"],
+     "Hello, I would like to join a trade mission or B2B meeting"),
+    ("proyectos-e-inversion", "Projects and investment", "We structure Colombian participation in Caribbean projects: clean energy, water, infrastructure and public tenders.",
+     "Companies, consortia and investors.",
+     ["Radar of public tenders and projects in the Caribbean", "Formation of consortia with Colombian companies", "Relationship with contracting entities", "Connection with structuring and financing partners"],
+     "Hello, I am interested in projects and investment in the Caribbean"),
+    ("mercado-colombia-caribe", "Colombia–Caribbean Marketplace", "Buy and sell Colombian products through one counterpart, operated by PRIMEIT SOLUTIONS SAS, the Chamber's commercial partner.",
+     "Caribbean buyers and Colombian producers.",
+     ["Catalogue of verified exportable products", "Quotation with technical sheets and incoterm", "Invoicing, export and shipping", "Follow-up to destination"],
+     "Hello, I would like a quote from the Colombia-Caribbean Marketplace"),
+]
+
+def _servicio_en(s):
+    ancla, nombre, resumen, para, incluye, texto = s
+    extra = '<a class="boton sec" href="{{u:en/marketplace}}">Go to the Marketplace</a>' if ancla == "mercado-colombia-caribe" else ""
+    return f"""<article class="servicio" id="{ancla}"><div><h3>{nombre}</h3><p>{resumen}</p><p class="para"><b>For:</b> {para}</p></div>
+<ul>{"".join(f"<li>{i}</li>" for i in incluye)}</ul>
+<div class="acciones"><a class="boton" href="{wa(texto)}">Request on WhatsApp</a><a class="boton sec" href="{{{{u:en/contact}}}}">Form</a>{extra}</div></article>"""
+
+INICIO_EN = f"""
+<section class="heroe"><div class="envoltura">
+<div class="copia">
+<p class="ante">Commercial diplomacy · Colombia · Caribbean · Antilles</p>
+<h1>We open doors between Colombia and the Caribbean. We build the bridge your business needs to cross.</h1>
+<p class="lead">CCMCAIT connects countries, companies and people across 34 markets of the Caribbean and the Antilles. We verify every counterparty, work with governments, embassies and chambers, and support each deal through to closing.</p>
+<div class="acciones"><a class="boton" href="{{{{u:en/services}}}}">See our services</a><a class="boton sec" href="{{{{u:en/marketplace}}}}">Buy Colombian products</a></div>
+</div>
+<img class="sello" src="{{{{a}}}}emblema.png" alt="CCMCAIT emblem: map of the Caribbean surrounded by the flags of the countries and territories covered" width="400" height="394">
+</div></section>
+
+<section class="seccion"><div class="envoltura">
+<div class="encabezado-seccion"><p class="ante">Choose your door</p><h2>What do you want to achieve?</h2><p class="lead">Three direct routes. Pick yours and we reply with a concrete plan.</p></div>
+<div class="puertas tres">
+<div class="puerta"><p class="ante">Caribbean buyers and importers</p><h3>Buy Colombian products</h3>
+<ul><li>Catalogue of verified exportable products</li><li>One counterpart to quote and buy</li><li>Shipping and follow-up to your port</li></ul>
+<div class="acciones"><a class="boton" href="{{{{u:en/marketplace}}}}">Go to the Marketplace</a><a class="boton sec" href="{wa('Hello, I would like a quote for Colombian products')}">WhatsApp</a></div></div>
+<div class="puerta dos"><p class="ante">Caribbean companies, governments and chambers</p><h3>Do business in Colombia</h3>
+<ul><li>Verified Colombian suppliers and partners</li><li>Agendas with associations, regions and government</li><li>Investment opportunities with institutional backing</li></ul>
+<div class="acciones"><a class="boton" href="{{{{u:en/services}}}}#aterrizaje-en-colombia">Landing in Colombia</a><a class="boton sec" href="{wa('Hello, I would like to do business in Colombia')}">WhatsApp</a></div></div>
+<div class="puerta tres"><p class="ante">Colombian companies</p><h3>Take my business to the Caribbean</h3>
+<ul><li>Destination market reading</li><li>Verified buyers and distributors</li><li>Support up to the first shipment</li></ul>
+<div class="acciones"><a class="boton" href="{{{{u:en/services}}}}#ruta-exportadora">Export Route</a><a class="boton sec" href="{wa('Hello, I want to take my business to the Caribbean')}">WhatsApp</a></div></div>
+</div></div></section>
+
+<section class="seccion blanca"><div class="envoltura">
+<div class="encabezado-seccion"><p class="ante">One bridge, two ways to cross it</p><h2>The Chamber opens the door. The Marketplace closes the sale.</h2></div>
+<div class="columnas mundos">
+<div class="mundo"><p class="ante">The Chamber · Institutional bridge</p><h3>Commercial diplomacy for your company</h3>
+<p>We introduce your company to chambers, ministries, embassies and buyers with the backing of a trade organisation. We verify counterparties, prepare agendas and accompany you in every meeting.</p>
+<a class="enlace" href="{{{{u:en/services}}}}">See the Chamber's services →</a></div>
+<div class="mundo dos"><p class="ante">The Marketplace · Commercial bridge</p><h3>Colombian products ready to export</h3>
+<p>The Colombia–Caribbean Marketplace brings together exportable products verified by the Chamber. It is operated by PRIMEIT SOLUTIONS SAS, the Chamber's commercial partner, which quotes, invoices, exports and coordinates delivery. Buyers deal with one counterpart.</p>
+<a class="enlace" href="{{{{u:en/marketplace}}}}">Explore the Marketplace →</a></div>
+</div></div></section>
+
+<section class="seccion blanca"><div class="envoltura">
+<div class="encabezado-seccion"><p class="ante">The region in figures</p><h2>A growing market that Colombia is only beginning to serve</h2></div>
+<div class="cifras">
+<div class="cifra"><b>35 M</b><span>tourist arrivals in the Caribbean in 2025</span><span class="fuente">Caribbean Tourism Organization</span></div>
+<div class="cifra"><b>+23.7 %</b><span>growth in South American visitors in 2025</span><span class="fuente">CTO, 2025</span></div>
+<div class="cifra"><b>USD 1,287 M</b><span>Colombian exports to 18 Caribbean markets in 2025</span><span class="fuente">UN COMTRADE</span></div>
+<div class="cifra"><b>34</b><span>countries and territories covered</span><span class="fuente">13 countries · 21 dependencies</span></div>
+</div></div></section>
+
+<section class="seccion"><div class="envoltura">{DECLARACION_EN}</div></section>
+""" + cta_en("Your next market is one conversation away", "Tell us what you sell or what you are looking for, and in which country. We reply with a concrete route.", "Let's talk")
+
+SERVICIOS_PAG_EN = heroe_interior("Services", "We open the door, verify the other side and support you through to closing", "Seven services to bring business to the Caribbean, bring business to Colombia, and buy or sell products with institutional backing.") + f"""
+<section class="seccion"><div class="envoltura">
+<div class="modelo"><p><b>No membership fee.</b> The Chamber works on results: every engagement is agreed in writing, with clear scope and terms from the start.</p></div>
+<div class="servicios">{"".join(_servicio_en(s) for s in SERVICIOS_EN)}</div>
+</div></section>
+""" + cta_en("Which service does your company need?", "Tell us your goal and we will propose the scope within 48 business hours.", "Request a proposal")
+
+CATEGORIAS_EN = ["Coffee and beverages|Export coffee, herbal teas and infusions, juices.", "Food and confectionery|Panela (unrefined cane sugar), sugar, sweets and confectionery.",
+    "Pet products|Dog and cat food, cat litter.", "Commodities and mining|Thermal coal, coke and minerals.", "Construction and metals|Aluminium, profiles and construction materials.",
+    "Agro-inputs|Fertilisers and crop nutrition.", "Clean energy and water|Batteries, solar and water solutions for projects.",
+    "Technology and security|Cybersecurity, access control, audio and consumer electronics.", "Textiles and apparel|Shapewear and garment manufacturing."]
+MERCADO_EN = heroe_interior("Colombia–Caribbean Marketplace", "Verified Colombian products, with one counterpart all the way to your port", "The Marketplace brings together exportable products verified by the Chamber. PRIMEIT SOLUTIONS SAS, CCMCAIT's commercial partner, operates every sale: it quotes, invoices, exports and coordinates delivery.") + f"""
+<section class="seccion"><div class="envoltura">
+<div class="encabezado-seccion"><p class="ante">Catalogue</p><h2>Available categories</h2><p class="lead">A growing catalogue. Technical sheets, minimum volumes and prices are provided on request, by product and destination.</p></div>
+<div class="rejilla">{"".join(f'<div class="tarjeta categoria"><h3>{c.split("|")[0]}</h3><p>{c.split("|")[1]}</p><a class="enlace" href="{wa("Hello, I would like a quote: " + c.split("|")[0])}">Request a quote →</a></div>' for c in CATEGORIAS_EN)}</div>
+</div></section>
+<section class="seccion blanca"><div class="envoltura columnas">
+<div class="texto"><p class="ante">For buyers</p><h2>How to buy</h2><p>You deal with one counterpart. The Chamber verifies the supplier; PRIMEIT sells, invoices and delivers.</p>
+<div class="acciones"><a class="boton" href="{{{{u:mercado}}}}#cotizar">Request a quote (bilingual form)</a></div></div>
+<div class="pasos">
+<div class="paso"><h3>Request your quote</h3><p>Product, approximate volume and destination country.</p></div>
+<div class="paso"><h3>Receive the offer</h3><p>Technical sheet, price per volume, incoterm and shipping times.</p></div>
+<div class="paso"><h3>Close on secure terms</h3><p>Purchase order and payment terms agreed per transaction, with instruments such as a letter of credit.</p></div>
+<div class="paso"><h3>Shipping and follow-up</h3><p>We coordinate the export and keep you informed at every stage until delivery.</p></div>
+</div></div></section>
+<section class="seccion"><div class="envoltura">
+<div class="declaracion"><div class="marca-sello" aria-hidden="true">CLEAR<br>ROLES</div>
+<div class="texto"><h3>How the Chamber and PRIMEIT work together</h3>
+<p>CCMCAIT is a non-profit organisation: it verifies companies and introduces them with institutional backing. PRIMEIT SOLUTIONS SAS is a trading company: it buys, sells, invoices and exports. Each role is separate and declared, so buyers and sellers always know who they are dealing with.</p></div></div>
+</div></section>
+""" + cta_en("Looking for a product that is not in the catalogue?", "Tell us what you need. If it is made in Colombia, the Chamber will find and verify the supplier.", "Talk to the Chamber", wa_texto="Hello, I am looking for a Colombian product")
+
+CONTACTO_EN = heroe_interior("Contact", "Let's talk about your business in Colombia and the Caribbean", "Our team reviews every request and supports you throughout the process. Choose WhatsApp for a quick reply or send us your project.") + f"""
+<section class="seccion"><div class="envoltura columnas">
+<form class="formulario" data-formulario action="{FORM_ACCION}" method="POST">
+<h2>Tell us about your project</h2>
+<input type="hidden" name="_subject" value="New request from ccmcait.org (English)">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="_next" value="https://www.ccmcait.org/gracias/">
+<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+<div class="dos-col">
+<div class="campo"><label for="e-nombre">Full name *</label><input id="e-nombre" name="nombre" required autocomplete="name"></div>
+<div class="campo"><label for="e-empresa">Company or institution</label><input id="e-empresa" name="empresa" autocomplete="organization"></div>
+<div class="campo"><label for="e-correo">Email *</label><input id="e-correo" name="email" type="email" required autocomplete="email"></div>
+<div class="campo"><label for="e-tel">Phone / WhatsApp</label><input id="e-tel" name="telefono" type="tel" autocomplete="tel"></div>
+</div>
+<div class="campo"><label for="e-nec">What do you need? *</label><select id="e-nec" name="necesidad" required><option value="">Select an option</option><option>Buy Colombian products (Marketplace)</option><option>Do business or invest in Colombia</option><option>Institutional representation or counterparty verification</option><option>Projects and investment</option><option>Become a strategic partner</option><option>Other</option></select></div>
+<div class="campo"><label for="e-msg">Tell us about your project *</label><textarea id="e-msg" name="mensaje" rows="5" required placeholder="What you sell or need, and in which country."></textarea></div>
+<label class="consentimiento" for="e-ok"><input id="e-ok" name="autorizacion_datos" type="checkbox" value="Authorises" required> <span>I authorise CCMCAIT to process my data to answer this request, under its <a href="{{{{u:privacidad}}}}">privacy notice</a> (Colombian Law 1581 of 2012).</span></label>
+<div><button class="boton" type="submit">Send request</button></div>
+<p class="aviso" data-nota hidden>Preview: on the live site this form is delivered to the Chamber's mailbox.</p>
+</form>
+<div class="texto"><p class="ante">Direct channels</p><h2>Where to find us</h2>
+<div class="canales">
+<div class="canal"><b>Institutional email</b><span>presidencia@ccmcait.org</span></div>
+<div class="canal"><b>Institutional WhatsApp</b><a href="https://wa.me/573164683277">+57 316 468 3277</a></div>
+<div class="canal"><b>Bogotá, Colombia</b><span>Cra. 63 # 98B-51, office 204</span></div>
+<div class="canal"><b>Santo Domingo, Dominican Republic</b><span>Av. Los Próceres, Diamond Mall, unit 48, Arroyo Hondo</span></div>
+</div></div>
+</div></section>
+"""
+
 PAGINAS = {
-    "": {"titulo": "CCMCAIT | Cámara de Comercio Colombo Antillana", "descripcion": "Puente institucional para hacer negocios entre Colombia y 34 países y territorios del Caribe y las Antillas, con verificación de empresas y respaldo diplomático.", "html": INICIO},
+    "": {"titulo": "CCMCAIT | Cámara de Comercio Colombo Antillana", "descripcion": "Puente institucional para hacer negocios entre Colombia y 34 países y territorios del Caribe y las Antillas, con verificación de empresas y respaldo diplomático.", "html": INICIO, "alterno": "en"},
     "sobre-la-camara": {"titulo": "Sobre la Cámara | CCMCAIT", "descripcion": "Misión, visión y articulación institucional de la Cámara de Comercio Multilateral Colombo Antillana de Integración y Turismo.", "html": SOBRE, "hijas": ["como-lo-hacemos", "tratados", "aliados-estrategicos"]},
     "como-lo-hacemos": {"titulo": "Cómo lo hacemos | CCMCAIT", "descripcion": "Modelo de trabajo de la CCMCAIT: instituciones, gobierno, academia y empresarios conectados para cerrar negocios en el Caribe.", "html": COMO},
     "tratados": {"titulo": "Tratados y organismos | CCMCAIT", "descripcion": "AEC, CARICOM y OEACP: el marco multilateral que facilita el comercio entre Colombia y el Caribe.", "html": TRATADOS},
     "aliados-estrategicos": {"titulo": "Aliados estratégicos | CCMCAIT", "descripcion": "Empresas, instituciones y proyectos aliados de la CCMCAIT para la integración comercial Colombia-Caribe.", "html": ALIADOS},
-    "servicios": {"titulo": "Servicios | CCMCAIT", "descripcion": "Ruta Exportadora, Aterrizaje en Colombia, diplomacia comercial, verificación de contrapartes, misiones, proyectos e inversión y Mercado Colombia–Caribe.", "html": SERVICIOS},
-    "mercado": {"titulo": "Mercado Colombia–Caribe | CCMCAIT", "descripcion": "Compre productos colombianos verificados por la Cámara con un solo interlocutor: café, alimentos, mascotas, commodities, construcción y más, operado por PRIMEIT SOLUTIONS SAS.", "html": MERCADO, "hijas": ["commodities"]},
+    "servicios": {"titulo": "Servicios | CCMCAIT", "descripcion": "Ruta Exportadora, Aterrizaje en Colombia, diplomacia comercial, verificación de contrapartes, misiones, proyectos e inversión y Mercado Colombia–Caribe.", "html": SERVICIOS, "alterno": "en/services"},
+    "mercado": {"titulo": "Mercado Colombia–Caribe | CCMCAIT", "descripcion": "Compre productos colombianos verificados por la Cámara con un solo interlocutor: café, alimentos, mascotas, commodities, construcción y más, operado por PRIMEIT SOLUTIONS SAS.", "html": MERCADO, "hijas": ["commodities"], "alterno": "en/marketplace"},
     "cobertura": {"titulo": "Cobertura | CCMCAIT", "descripcion": "Los 13 países y 21 dependencias del Caribe y las Antillas donde trabaja la CCMCAIT, con enlaces a sus gobiernos.", "html": COBERTURA},
     "portal-de-oportunidades": {"titulo": "Portal de oportunidades | CCMCAIT", "descripcion": "Oportunidades de negocio verificadas entre Colombia y el Caribe: vender, comprar e invertir con respaldo de la Cámara.", "html": PORTAL, "hijas": ["casos-de-exito"]},
     "casos-de-exito": {"titulo": "Casos de éxito | CCMCAIT", "descripcion": "Fichas de país con datos verificados y casos de empresas colombianas acompañadas por la Cámara en el Caribe.", "html": CASOS},
     "eventos": {"titulo": "Eventos del Caribe | CCMCAIT", "descripcion": "Próximas ferias, foros y misiones comerciales en el Caribe y Colombia, y actividades de la CCMCAIT.", "html": EVENTOS},
     "commodities": {"titulo": "Commodities | CCMCAIT", "descripcion": "Carbón, minerales, materiales de construcción y aluminio con proveedores verificados por la Cámara, para compradores del Caribe y el mundo.", "html": COMMODITIES},
-    "contacto": {"titulo": "Contacto | CCMCAIT", "descripcion": "Escriba a la CCMCAIT para exportar al Caribe, importar desde Colombia o ser aliado estratégico. Oficinas en Bogotá y Santo Domingo.", "html": CONTACTO},
+    "contacto": {"titulo": "Contacto | CCMCAIT", "descripcion": "Escriba a la CCMCAIT para exportar al Caribe, importar desde Colombia o ser aliado estratégico. Oficinas en Bogotá y Santo Domingo.", "html": CONTACTO, "alterno": "en/contact"},
     "privacidad": {"titulo": "Aviso de privacidad | CCMCAIT", "descripcion": "Política de tratamiento de datos personales de la CCMCAIT según la Ley 1581 de 2012.", "html": PRIVACIDAD},
     "gracias": {"titulo": "Solicitud recibida | CCMCAIT", "descripcion": "Gracias por escribir a la CCMCAIT.", "html": GRACIAS, "noindex": True},
+    "en": {"titulo": "CCMCAIT | Colombia–Caribbean Chamber of Commerce", "descripcion": "Institutional bridge to do business between Colombia and 34 countries and territories of the Caribbean and the Antilles, with company verification and diplomatic backing.", "html": INICIO_EN, "lang": "en", "alterno": ""},
+    "en/services": {"titulo": "Services | CCMCAIT", "descripcion": "Export Route, Landing in Colombia, commercial diplomacy, counterparty verification, trade missions, projects and investment, and the Colombia–Caribbean Marketplace.", "html": SERVICIOS_PAG_EN, "lang": "en", "alterno": "servicios"},
+    "en/marketplace": {"titulo": "Colombia–Caribbean Marketplace | CCMCAIT", "descripcion": "Buy verified Colombian products through one counterpart: coffee, food, pet products, commodities, construction materials and more, operated by PRIMEIT SOLUTIONS SAS.", "html": MERCADO_EN, "lang": "en", "alterno": "mercado"},
+    "en/contact": {"titulo": "Contact | CCMCAIT", "descripcion": "Contact CCMCAIT to buy Colombian products, do business in Colombia or become a strategic partner. Offices in Bogotá and Santo Domingo.", "html": CONTACTO_EN, "lang": "en", "alterno": "contacto"},
 }

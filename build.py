@@ -8,7 +8,7 @@ Uso:
 Para actualizar una página: editar su bloque en paginas.py y volver a ejecutar.
 """
 import os, re, shutil, sys, datetime
-from paginas import PAGINAS, REDIRECCIONES, NAV, SITIO
+from paginas import PAGINAS, REDIRECCIONES, NAV, NAV_EN, SITIO
 
 MODO = sys.argv[1] if len(sys.argv) > 1 else "produccion"
 SALIDA = "dist" if MODO == "produccion" else "vista"
@@ -24,22 +24,29 @@ def url(destino, profundidad):
 
 
 def resolver(html, profundidad):
-    html = re.sub(r"\{\{u:([a-z0-9\-]*)\}\}", lambda m: url(m.group(1), profundidad), html)
+    html = re.sub(r"\{\{u:([a-z0-9\-/]*)\}\}", lambda m: url(m.group(1), profundidad), html)
     html = html.replace("{{a}}", "../" * profundidad + "assets/")
     return html
 
 
-def cabecera(slug, profundidad):
+def cabecera(slug, profundidad, pag=None):
+    pag = pag or {}
+    en = pag.get("lang") == "en"
     enlaces = []
-    for destino, nombre in NAV:
+    for destino, nombre in (NAV_EN if en else NAV):
         actual = ' aria-current="page"' if destino == slug or (destino and slug in PAGINAS.get(destino, {}).get("hijas", [])) else ""
         enlaces.append(f'<a href="{{{{u:{destino}}}}}"{actual}>{nombre}</a>')
+    alt = pag.get("alterno")
+    if alt is not None:
+        enlaces.append(f'<a class="idioma" href="{{{{u:{alt}}}}}" hreflang="{'es' if en else 'en'}">{'Español' if en else 'English'}</a>')
     nav = "".join(enlaces)
+    inicio = "en" if en else ""
+    sub = "Multilateral Chamber of Commerce<br>Colombia–Caribbean Integration and Tourism" if en else "Cámara de Comercio Multilateral Colombo Antillana<br>de Integración y Turismo"
     return f"""<div class="franja"></div>
 <header class="cabecera"><div class="envoltura">
-<a class="marca" href="{{{{u:}}}}"><img src="{{{{a}}}}emblema-200.png" alt="Emblema de la CCMCAIT" width="48" height="48"><span><b>CCMCAIT</b><small>Cámara de Comercio Multilateral Colombo Antillana<br>de Integración y Turismo</small></span></a>
+<a class="marca" href="{{{{u:{inicio}}}}}"><img src="{{{{a}}}}emblema-200.png" alt="CCMCAIT" width="48" height="48"><span><b>CCMCAIT</b><small>{sub}</small></span></a>
 <nav class="nav" aria-label="Principal">{nav}</nav>
-<details class="menu-movil"><summary>Menú</summary><nav aria-label="Principal móvil">{nav}</nav></details>
+<details class="menu-movil"><summary>{"Menu" if en else "Menú"}</summary><nav aria-label="Principal móvil">{nav}</nav></details>
 </div></header>"""
 
 
@@ -56,14 +63,28 @@ def pie():
 <a class="whatsapp" href="https://wa.me/{SITIO['whatsapp']}" aria-label="Escríbenos por WhatsApp">WhatsApp</a>"""
 
 
+def pie_en():
+    return f"""<footer class="pie"><div class="envoltura">
+<div class="rejilla-pie">
+<div><h4>CCMCAIT</h4><p>Multilateral Chamber of Commerce for Colombia–Caribbean Integration and Tourism. Non-profit organisation. Institutional bridge between Colombia and 34 countries and territories of the Caribbean and the Antilles. The Colombia–Caribbean Marketplace is operated by PRIMEIT SOLUTIONS SAS, the Chamber's commercial partner.</p></div>
+<div><h4>The Chamber</h4><a href="{{{{u:en/services}}}}">Services</a><a href="{{{{u:en/marketplace}}}}">Marketplace</a><a href="{{{{u:cobertura}}}}">Coverage (ES)</a><a href="{{{{u:tratados}}}}">Treaties (ES)</a></div>
+<div><h4>Contact</h4><a href="{{{{u:en/contact}}}}">Write to us</a><a href="https://wa.me/{SITIO['whatsapp']}">WhatsApp +57 316 468 3277</a><a href="https://x.com/ccmcait">X</a></div>
+<div><h4>Language</h4><a href="{{{{u:}}}}">Español</a><a href="{{{{u:en}}}}">English</a></div>
+</div>
+<div class="legal"><span>© {datetime.date.today().year} CCMCAIT · Bogotá · Santo Domingo</span><a href="{{{{u:privacidad}}}}">Privacy notice (Spanish)</a></div>
+</div></footer>
+<a class="whatsapp" href="https://wa.me/{SITIO['whatsapp']}" aria-label="WhatsApp">WhatsApp</a>"""
+
+
 def documento(slug, pag, profundidad):
     canonical = SITIO["dominio"] + (slug + "/" if slug else "")
     script = ""
     if MODO == "vista":
         script = """<script>document.querySelectorAll('form[data-formulario]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var n=f.querySelector('[data-nota]');if(n){n.hidden=false;}});});</script>"""
-    cuerpo = cabecera(slug, profundidad) + "<main>" + pag["html"] + "</main>" + pie() + script
+    en = pag.get("lang") == "en"
+    cuerpo = cabecera(slug, profundidad, pag) + "<main>" + pag["html"] + "</main>" + (pie_en() if en else pie()) + script
     return resolver(f"""<!doctype html>
-<html lang="es">
+<html lang="{pag.get('lang', 'es')}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -74,7 +95,7 @@ def documento(slug, pag, profundidad):
 <meta property="og:description" content="{pag['descripcion']}">
 <meta property="og:url" content="{canonical}">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="es_CO">
+<meta property="og:locale" content="{'en_US' if en else 'es_CO'}">
 <link rel="icon" type="image/png" href="{{{{a}}}}favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -101,7 +122,7 @@ def main():
     shutil.rmtree(out, ignore_errors=True)
     shutil.copytree(os.path.join(RAIZ, "src", "assets"), os.path.join(out, "assets"))
     for slug, pag in PAGINAS.items():
-        prof = 1 if slug else 0
+        prof = slug.count('/') + 1 if slug else 0
         carpeta = os.path.join(out, slug) if slug else out
         os.makedirs(carpeta, exist_ok=True)
         with open(os.path.join(carpeta, "index.html"), "w", encoding="utf-8") as fh:

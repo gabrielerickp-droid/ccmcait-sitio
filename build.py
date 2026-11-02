@@ -46,9 +46,9 @@ def cabecera(slug, profundidad):
 def pie():
     return f"""<footer class="pie"><div class="envoltura">
 <div class="rejilla-pie">
-<div><h4>CCMCAIT</h4><p>Cámara de Comercio Multilateral Colombo Antillana de Integración y Turismo. Entidad sin ánimo de lucro. Puente institucional entre Colombia y 34 países y territorios del Caribe y las Antillas.</p></div>
+<div><h4>CCMCAIT</h4><p>Cámara de Comercio Multilateral Colombo Antillana de Integración y Turismo. Entidad sin ánimo de lucro. Puente institucional entre Colombia y 34 países y territorios del Caribe y las Antillas. El Mercado Colombia–Caribe es operado por PRIMEIT SOLUTIONS SAS, aliado comercial de la Cámara.</p></div>
 <div><h4>La Cámara</h4><a href="{{{{u:sobre-la-camara}}}}">Sobre la Cámara</a><a href="{{{{u:como-lo-hacemos}}}}">Cómo lo hacemos</a><a href="{{{{u:tratados}}}}">Tratados</a><a href="{{{{u:aliados-estrategicos}}}}">Aliados estratégicos</a></div>
-<div><h4>Negocios</h4><a href="{{{{u:servicios}}}}">Servicios</a><a href="{{{{u:cobertura}}}}">Cobertura</a><a href="{{{{u:portal-de-oportunidades}}}}">Portal de oportunidades</a><a href="{{{{u:casos-de-exito}}}}">Casos de éxito</a><a href="{{{{u:eventos}}}}">Eventos</a></div>
+<div><h4>Negocios</h4><a href="{{{{u:servicios}}}}">Servicios</a><a href="{{{{u:mercado}}}}">Mercado Colombia–Caribe</a><a href="{{{{u:commodities}}}}">Commodities</a><a href="{{{{u:cobertura}}}}">Cobertura</a><a href="{{{{u:portal-de-oportunidades}}}}">Portal de oportunidades</a><a href="{{{{u:casos-de-exito}}}}">Casos de éxito</a><a href="{{{{u:eventos}}}}">Eventos</a></div>
 <div><h4>Contacto</h4><a href="{{{{u:contacto}}}}">Escríbenos</a><a href="https://wa.me/{SITIO['whatsapp']}">WhatsApp +57 316 468 3277</a><a href="https://www.instagram.com/camaracolomboantillana/">Instagram</a><a href="https://x.com/ccmcait">X</a></div>
 </div>
 <div class="legal"><span>© {datetime.date.today().year} CCMCAIT · Bogotá · Santo Domingo</span><a href="{{{{u:privacidad}}}}">Aviso de privacidad y tratamiento de datos</a></div>
